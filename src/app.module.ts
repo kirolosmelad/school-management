@@ -6,7 +6,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloDriverConfig>({
-      autoSchemaFile: true, // save schema in memory and re-generate it everytime we start app
+      autoSchemaFile: true,
       driver: ApolloDriver,
     }),
     LessonModule,
