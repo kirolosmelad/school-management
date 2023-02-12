@@ -12,7 +12,7 @@ export class LessonResolver {
     @Inject(LessonService) private readonly lessonService: LessonService,
   ) {}
 
-  @Query((returns) => LessonType)
+  @Query((returns) => LessonType, { nullable: true })
   lessonById(@Args('id', ParseUUIDPipe) id: string) {
     return this.lessonService.getLessonById(id);
   }
