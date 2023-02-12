@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { CreateLessonInput } from './inputs/create-lesson.input';
 import { PaginationInput } from 'src/shared/inputs/pagination.input';
+import { AssignStudentsToLessonInput } from './inputs/assign-students-to-lesson.input';
 
 @Injectable()
 export class LessonService {
@@ -31,5 +32,19 @@ export class LessonService {
       take: paginationInput.size,
       skip: (paginationInput.page - 1) * paginationInput.size,
     });
+  }
+
+  async assignStudentsToLesson(
+    assignStudentsToLessonInput: AssignStudentsToLessonInput,
+  ): Promise<Lesson> {
+    const { lessonId, studentIds } = assignStudentsToLessonInput;
+
+    const lesson = await this.lessonRepository.findOne({
+      where: { id: lessonId },
+    });
+
+    lesson.students = [...(lesson?.students ?? []), ...studentIds];
+
+    return this.lessonRepository.save(lesson);
   }
 }
